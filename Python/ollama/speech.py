@@ -1,4 +1,3 @@
-import argparse
 import os
 import numpy as np
 import speech_recognition as sr
@@ -115,13 +114,14 @@ def get_speech(model="medium", language="zh", record_timeout=4, phrase_timeout=1
                             print("You: ", line)
                             print("CHAT: ", responses[i])
 
-                        auido = tts(text=response['message']['content'], 
-                                    # am="fastspeech2_ljspeech", 
-                                    # lang="en", 
-                                    # voc="hifigan_ljspeech", 
-                                    # voc_ckpt="~/.paddlespeech/models/fastspeech2_ljspeech-en/1.0/fastspeech2_nosil_ljspeech_ckpt_0.5",
-                                    output="output.wav")
-                        
+                        auido_array = tts.get_audio(text=response['message']['content'], 
+                                            # am="fastspeech2_ljspeech", 
+                                            # lang="en", 
+                                            # voc="hifigan_ljspeech", 
+                                            # voc_ckpt="~/.paddlespeech/models/fastspeech2_ljspeech-en/1.0/fastspeech2_nosil_ljspeech_ckpt_0.5",
+                                            output="output.wav")
+                        play_audio(auido_array, data_queue)
+                                
                         # Flush stdout.
                         print('', end='', flush=True)
             else:
@@ -130,12 +130,12 @@ def get_speech(model="medium", language="zh", record_timeout=4, phrase_timeout=1
         except KeyboardInterrupt:
             break
 
-def play_audio(audio_data, fs=24000):
+def play_audio(auido_array, data_queue, fs=24000):
     # 播放音频
-    sd.play(audio_data, samplerate=fs)
+    sd.play(auido_array, samplerate=fs)
     while sd.get_stream().active:
         # 这里可以添加一个检查麦克风输入的逻辑
-        if mic_input_detected():
+        if mic_input_detected(data_queue):
             sd.stop()  # 停止音频播放
             break
     return 
