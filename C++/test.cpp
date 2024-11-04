@@ -20,14 +20,28 @@ struct Person {
     };
 };
 
-enum color{red, green, blue};
+bool isShorter(const Person &, const Person &);
 
-typedef char APM;
-
+vector<int>* add_vector(vector<int>, vector<int>);
 
 int main() {
-    int a;
-    cin >> a;
-    cout << a << endl;
+    vector<int> v1 = {1, 2, 3};
+    vector<int> v2 = {4, 5, 6};
+    vector<int> *pv = add_vector(v1, v2);
+    for (int i = 0; i < pv->size(); i++) {
+        cout << (*pv)[i] << " ";
+    }
 
+}
+
+bool isShorter(const Person &p1, const Person &p2) {
+    return p1.height < p2.height;
+}
+
+vector<int>* add_vector(vector<int> v1, vector<int> v2) {
+    vector<int> *pv = new vector<int>;
+    for (int i = 0; i < v1.size(); i++) {
+        pv->push_back(v1[i] + v2[i]);
+    }
+    return pv;
 }
