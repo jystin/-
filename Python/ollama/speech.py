@@ -12,6 +12,19 @@ import ollama
 from paddlespeech.cli.tts.infer import TTSExecutor
 import soundfile as sf
 import sounddevice as sd
+from dashscope.audio.tts_v2 import *
+import os
+
+# 获取环境变量
+dashscope_api_key = os.getenv("DASHSCOPE_API_KEY")
+
+model = "cosyvoice-v1"
+voice = "longxiaochun"
+
+
+synthesizer = SpeechSynthesizer(model=model, voice=voice)
+
+
 
 
 def get_speech(model="medium", language="zh", record_timeout=4, phrase_timeout=1):

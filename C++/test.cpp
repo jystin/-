@@ -5,43 +5,44 @@
 #include <cstring>
 #include <ctime>
 #include <cctype>
+#include <cmath>
 using namespace std;
-const int Foot2inch = 12;
 
-struct Person {
-    string name;
-    double height;
-    double weight;
-    int age = 2; // 有默认值的放在最后
-    union
-    {
-        long long_id = 0;
-        // string short_id = "000";
-    };
+struct polar {
+    double distance;
+    double angle;
 };
 
-bool isShorter(const Person &, const Person &);
+struct rect {
+    double x;
+    double y;
+};
 
-vector<int>* add_vector(vector<int>, vector<int>);
+polar rect_to_polar(rect xypos) {
+    polar answer;
+    answer.distance = sqrt(xypos.x * xypos.x + xypos.y * xypos.y);
+    answer.angle = atan2(xypos.y, xypos.x);
+    return answer;
+}
+
+void show_polar(polar dapos) {
+    const double Rad_to_deg = 57.29577951;
+    cout << "distance = " << dapos.distance;
+    cout << ", angle = " << dapos.angle * Rad_to_deg;
+    cout << " degrees\n";
+}
+
+void show_plar2(const polar *dapos);
 
 int main() {
-    vector<int> v1 = {1, 2, 3};
-    vector<int> v2 = {4, 5, 6};
-    vector<int> *pv = add_vector(v1, v2);
-    for (int i = 0; i < pv->size(); i++) {
-        cout << (*pv)[i] << " ";
-    }
-
+    int * list [5] = {1, 2, 3, 4, 5};
+    cout << list[0] << endl;
 }
 
-bool isShorter(const Person &p1, const Person &p2) {
-    return p1.height < p2.height;
-}
-
-vector<int>* add_vector(vector<int> v1, vector<int> v2) {
-    vector<int> *pv = new vector<int>;
-    for (int i = 0; i < v1.size(); i++) {
-        pv->push_back(v1[i] + v2[i]);
-    }
-    return pv;
+void show_plar2(const polar *dapos)
+{
+    const double Rad_to_deg = 57.29577951;
+    cout << "distance = " << dapos->distance;
+    cout << ", angle = " << dapos->angle * Rad_to_deg;
+    cout << " degrees\n";
 }
